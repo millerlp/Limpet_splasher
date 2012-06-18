@@ -17,3 +17,7 @@ real time clock that hasn't already been initialized. Read the instructions
 inside that arduino sketch, since it should only be uploaded and run one time,
 and then you must immediately load a different sketch on the Arduino to avoid
 reseting the time more than once (since it stores the old time from compile).
+
+This project is a branch of my other work, particularly
+http://github.com/millerlp/Tide_switch
+

@@ -79,7 +79,7 @@ boolean HighFlag = false;  // Set true when tide is above virtualShoreLevel
 boolean LowFlag = false; // Set true when tide is below virturalShoreLevel
 
 //-----------------------------------------
-const int Relay1 = 4;  // Pin number for first relay output.
+const int Relay1 = 4;  // Pin number for relay output.
 
 
 
@@ -100,8 +100,8 @@ void setup(void)
   // Initialize output pins
   pinMode(Relay1, OUTPUT); //Establish that Relay1 is an output
   digitalWrite(Relay1, LOW); // Set output signal low (i.e. off)
-  pinMode(Relay2, OUTPUT);
-  digitalWrite(Relay2, LOW); 
+//  pinMode(Relay2, OUTPUT);
+//  digitalWrite(Relay2, LOW); 
   //************************************
 
   DateTime now = RTC.now();
@@ -144,29 +144,16 @@ void loop(void)
     //**********************************
     // Example code to actuate relays. This
     // code can activate a relay for a set 
-    // period of time (6 seconds = 6000 ms).
-    // Actuate drain valves if the tide height
-    // passes the virtualShoreHeight threshold.
-    // The additional check of HighFlag and LowFlag
-    // ensures that the relays are only actuated once
-    // per high or low tide cycle, instead of every 
-    // minute. 
-    if ( (results > virtualShoreHeight) && !HighFlag) {
+    // period of time (2 seconds = 2000 ms).
+    // The actuation will only occur when the 
+    // current time's seconds value is evenly 
+    // divisible by 10 (i.e. activates every 10 seconds).
+    if ( (results > virtualShoreHeight) & (now.second() % 10 == 0)) {
       // Tide height is above virtualShoreHeight
       digitalWrite(Relay1, HIGH); // Turn on relay
-      delay(6000);                // Wait 6 seconds (6000ms)
+      delay(2000);                // Wait 2 seconds (2000ms)
       digitalWrite(Relay1, LOW);  // Turn relay back off
-      HighFlag = true;            // Set flag if not already set
-      LowFlag = false;            // Set flag if not already set
     } 
-    else if ( (results <= virtualShoreHeight) && !LowFlag) {
-      // Tide height is below virtualShoreHeight
-      digitalWrite(Relay2, HIGH);  // Turn on relay
-      delay(6000);                 // Wait 6 seconds
-      digitalWrite(Relay2, LOW);   // Turn relay back off
-      LowFlag = true;              // Set flag if not already set
-      HighFlag = false;            // Set flag if not already set
-    }
   }    // End of if (now.minute() != currMinute) statement
 } // End of main loop
 

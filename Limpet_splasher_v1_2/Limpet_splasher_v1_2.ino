@@ -64,24 +64,19 @@ RTC_DS1307 RTC;  // Uncomment this version if you use the older DS1307 clock
 
 TideCalc myTideCalc;  // Create TideCalc object called myTideCalc
 
-
-int currMinute; // Keep track of current minute value in main loop
-float results;  // results holds the output from the tide calc. Units = ft.
-
 //********************************
 // This is the level at which the tide will switch from 
 // high to low and vice-versa as the predicted tide height
 // rises and falls. Changing this will affect how long your
 // tank is submerged and empty. 
-float virtualShoreHeight = 3.28;   // Units = feet
+float virtualShoreHeight = 2.0;   // Units = feet
 //*********************************
-boolean HighFlag = false;  // Set true when tide is above virtualShoreLevel
-boolean LowFlag = false; // Set true when tide is below virturalShoreLevel
+int currMinute; // Keep track of current minute value in main loop
 
-//-----------------------------------------
+// results holds the output from the tide calc. Units = ft.
+float results = virtualShoreHeight;  
+
 const int Relay1 = 4;  // Pin number for relay output.
-
-
 
 //**************************************************************************
 // Welcome to the setup loop
@@ -118,7 +113,20 @@ void loop(void)
 {
   // Get current time, store in object 'now'
   DateTime now = RTC.now();
-
+  //**********************************
+  // Example code to actuate relays. This
+  // code can activate a relay for a set 
+  // period of time (2.5 seconds = 2500 ms).
+  // The actuation will only occur when the 
+  // current time's seconds value is evenly 
+  // divisible by 10 (i.e. activates every 10 seconds).
+  if ( (results >= virtualShoreHeight) & (now.second() % 10 == 0)) {
+    // Tide height is above virtualShoreHeight
+    digitalWrite(Relay1, HIGH); // Turn on relay
+    delay(2500);                // Wait 2.5 seconds (2500ms)
+    digitalWrite(Relay1, LOW);  // Turn relay back off
+  } 
+  
   // If it is the start of a new minute, calculate new tide height and
   // adjust motor position
   if (now.minute() != currMinute) {
@@ -141,19 +149,7 @@ void loop(void)
     Serial.println(" ft.");
     Serial.println(); // blank line
     
-    //**********************************
-    // Example code to actuate relays. This
-    // code can activate a relay for a set 
-    // period of time (2 seconds = 2000 ms).
-    // The actuation will only occur when the 
-    // current time's seconds value is evenly 
-    // divisible by 10 (i.e. activates every 10 seconds).
-    if ( (results > virtualShoreHeight) & (now.second() % 10 == 0)) {
-      // Tide height is above virtualShoreHeight
-      digitalWrite(Relay1, HIGH); // Turn on relay
-      delay(2000);                // Wait 2 seconds (2000ms)
-      digitalWrite(Relay1, LOW);  // Turn relay back off
-    } 
+
   }    // End of if (now.minute() != currMinute) statement
 } // End of main loop
 

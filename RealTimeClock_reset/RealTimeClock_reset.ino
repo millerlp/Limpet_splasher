@@ -8,6 +8,20 @@
   powers up the next time. If it does reset, the Arduino will reset 
   the clock with the old compile time stamp, which will be out of
   date.
+  
+  *****NOTE*****
+  If you botch the first attempt at resetting the clock (maybe because
+  your computer time wasn't set to local standard time), you may need
+  to close the Arduino IDE and restart it in order to properly 
+  recompile and upload this sketch with the current correct time. A 
+  change made in the recent Arduino IDE tries to speed up recompile
+  time by only recompiling when code changes, but this undermines the
+  behavior of this sketch, which relies on grabbing the computer time
+  when compiling and uploading. If you try to run it multiple times
+  in a row, it won't recompile with an updated time, so you'll be stuck
+  with the old time value. Hence the need to restart the Arduino
+  IDE. 
+  **************
 */
 
 #include <Wire.h>
@@ -27,7 +41,7 @@ void setup(void)
 
 
   DateTime now = RTC.now();
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.print(now.year(), DEC);
   Serial.print('/');
   Serial.print(now.month(), DEC);

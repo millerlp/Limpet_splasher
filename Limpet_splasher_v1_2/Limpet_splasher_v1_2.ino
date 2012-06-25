@@ -76,7 +76,8 @@ int currMinute; // Keep track of current minute value in main loop
 // results holds the output from the tide calc. Units = ft.
 float results = virtualShoreHeight;  
 
-const int Relay1 = 4;  // Pin number for relay output.
+const int Relay1 = 11;  // Pin number for relay output.
+const int LEDPin = 13;  // Pin number for indicator LED.
 
 //**************************************************************************
 // Welcome to the setup loop
@@ -95,6 +96,8 @@ void setup(void)
   // Initialize output pins
   pinMode(Relay1, OUTPUT); //Establish that Relay1 is an output
   digitalWrite(Relay1, LOW); // Set output signal low (i.e. off)
+  pinMode(LEDPin, OUTPUT); // Establish that LEDPin is an output
+  digitalWrite(LEDPin, LOW); // Turn off led
 //  pinMode(Relay2, OUTPUT);
 //  digitalWrite(Relay2, LOW); 
   //************************************
@@ -123,8 +126,10 @@ void loop(void)
   if ( (results >= virtualShoreHeight) & (now.second() % 10 == 0)) {
     // Tide height is above virtualShoreHeight
     digitalWrite(Relay1, HIGH); // Turn on relay
+    digitalWrite(LEDPin, HIGH);  // Turn on indicator LED
     delay(2500);                // Wait 2.5 seconds (2500ms)
     digitalWrite(Relay1, LOW);  // Turn relay back off
+    digitalWrite(LEDPin, LOW);  // Turn off indicator LED
   } 
   
   // If it is the start of a new minute, calculate new tide height and

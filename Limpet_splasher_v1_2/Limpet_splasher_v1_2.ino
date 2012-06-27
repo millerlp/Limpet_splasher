@@ -69,7 +69,7 @@ TideCalc myTideCalc;  // Create TideCalc object called myTideCalc
 // high to low and vice-versa as the predicted tide height
 // rises and falls. Changing this will affect how long your
 // tank is submerged and empty. 
-float virtualShoreHeight = 6.0;   // Units = feet
+float virtualShoreHeight = 3.9;   // Units = feet
 //*********************************
 int currMinute; // Keep track of current minute value in main loop
 

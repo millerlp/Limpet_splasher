@@ -69,7 +69,7 @@ TideCalc myTideCalc;  // Create TideCalc object called myTideCalc
 // high to low and vice-versa as the predicted tide height
 // rises and falls. Changing this will affect how long your
 // tank is submerged and empty. 
-float virtualShoreHeight = 2.0;   // Units = feet
+float virtualShoreHeight = 6.0;   // Units = feet
 //*********************************
 int currMinute; // Keep track of current minute value in main loop
 
@@ -78,6 +78,8 @@ float results = virtualShoreHeight;
 
 const int Relay1 = 11;  // Pin number for relay output.
 const int LEDPin = 13;  // Pin number for indicator LED.
+const int lowTideLED = 10; // Pin number for low tide LED
+
 
 //**************************************************************************
 // Welcome to the setup loop
@@ -98,6 +100,7 @@ void setup(void)
   digitalWrite(Relay1, LOW); // Set output signal low (i.e. off)
   pinMode(LEDPin, OUTPUT); // Establish that LEDPin is an output
   digitalWrite(LEDPin, LOW); // Turn off led
+  pinMode(lowTideLED, OUTPUT);
 //  pinMode(Relay2, OUTPUT);
 //  digitalWrite(Relay2, LOW); 
   //************************************
@@ -131,6 +134,10 @@ void loop(void)
     digitalWrite(Relay1, LOW);  // Turn relay back off
     digitalWrite(LEDPin, LOW);  // Turn off indicator LED
   } 
+  else if (results < virtualShoreHeight) {
+    // If it is low tide, run the low tide LED to indicate this fact
+    heartbeatLED();  // Call heartbeatLED function (see end of sketch)
+  }
   
   // If it is the start of a new minute, calculate new tide height and
   // adjust motor position
@@ -188,5 +195,18 @@ void printTime(DateTime now) {
   }
 }
 //********************************************************
+// heartbeatLED is a function to slowly pulse an LED
+void heartbeatLED (void) {
+    int pwm = 255;
+    int rate = 15;
+    for (int j = 0; j < pwm; j++) {
+     analogWrite(lowTideLED, j);
+     delay(((60000/rate)*.5)/pwm); 
+    }
+    for (int j = pwm; j > 0; j--) {
+      analogWrite(lowTideLED, j);
+      delay(((60000/rate)*.5)/pwm);
+    }
 
+}
 

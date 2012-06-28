@@ -76,9 +76,9 @@ int currMinute; // Keep track of current minute value in main loop
 // results holds the output from the tide calc. Units = ft.
 float results = virtualShoreHeight;  
 
-const int Relay1 = 11;  // Pin number for relay output.
-const int LEDPin = 13;  // Pin number for indicator LED.
-const int lowTideLED = 10; // Pin number for low tide LED
+const int Relay1 = 7;  // Pin number for relay output.
+const int LEDPin = 8;  // Pin number for indicator LED.
+const int lowTideLED = 9; // Pin number for low tide LED
 
 
 //**************************************************************************

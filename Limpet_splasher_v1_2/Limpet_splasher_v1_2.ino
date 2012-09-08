@@ -60,7 +60,7 @@ RTC_DS1307 RTC;  // Uncomment this version if you use the older DS1307 clock
 // the appropriate .h and .cpp files must be installed in the 
 // arduino-1.x.x/libraries folder. 
 // Change this library name to use a different site.
-#include "TideLosAngeleslib.h"
+#include "TidelibLosAngeles.h"
 
 TideCalc myTideCalc;  // Create TideCalc object called myTideCalc
 

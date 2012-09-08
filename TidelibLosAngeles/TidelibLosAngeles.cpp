@@ -1,4 +1,4 @@
-/*  TideMontereyHarborlib.cpp 
+/*  TidelibLosAngeles.cpp 
  This source file contains a tide calculation function for the site listed
  below. This file and the associated header file should be placed in the
  Ardiuno/libraries/ directory inside a single folder.
@@ -14,7 +14,7 @@
 #include <Wire.h>
 #include <avr/pgmspace.h>
 #include "RTClib.h"
-#include "TideMontereyHarborlib.h"
+#include "TidelibLosAngeles.h"
 
 unsigned int YearIndx = 0; // Used to index rows in the Equilarg/Nodefactor arrays
 float currHours = 0;          // Elapsed hours since start of year
@@ -33,18 +33,18 @@ put new site values in here by hand.
 The Speed, Equilarg and Nodefactor arrays can all stay the same for any site.
 */
 
-// Selected station:  Monterey, Monterey Harbor, California 
-char stationID[] = " Monterey, Monterey Harbor, California ";
+// Selected station:  Los Angeles (outer harbor), California 
+char stationID[] = " Los Angeles (outer harbor), California ";
 // The 'datum' printed here is the difference between mean sea level and 
 // mean lower low water for the NOAA station. These two values can be 
 // found for NOAA tide reference stations on the tidesandcurrents.noaa.gov
 //  site under the datum page for each station.
-const float Datum = 2.8281 ; // units in feet
+const float Datum = 2.8248 ; // units in feet
 // Harmonic constant names: J1, K1, K2, L2, M1, M2, M3, M4, M6, M8, N2, 2N2, O1, OO1, P1, Q1, 2Q1, R2, S1, S2, S4, S6, T2, LDA2, MU2, NU2, RHO1, MK3, 2MK3, MN4, MS4, 2SM2, MF, MSF, MM, SA, SSA
 // These names match the NOAA names, except LDA2 here is LAM2 on NOAA's site
 typedef float PROGMEM prog_float_t; // Need to define this type before use
-PROGMEM prog_float_t Amp[] = {0.071,1.199,0.121,0.023,0.038,1.616,0,0,0,0,0.368,0.044,0.753,0.036,0.374,0.134,0.016,0.003,0.033,0.428,0,0,0.022,0.011,0.041,0.072,0.026,0,0,0,0,0,0,0,0,0.157,0.09};
-PROGMEM prog_float_t Kappa[] = {233.4,219.8,172,220.2,225.9,181.1,0,0,0,0,154.6,123.9,203.4,250.2,215.6,195.1,199.4,180.2,319.1,180.2,0,0,167.8,180.7,114.6,161.1,196.6,0,0,0,0,0,0,0,0,206,283.9};
+PROGMEM prog_float_t Amp[] = {0.064,1.124,0.196,0.026,0.039,1.691,0.01,0,0,0,0.396,0.05,0.714,0.035,0.352,0.129,0.013,0.01,0.01,0.666,0,0,0.04,0.01,0.055,0.077,0.025,0,0,0,0,0,0,0,0,0.218,0};
+PROGMEM prog_float_t Kappa[] = {219.1,207.7,135.5,134.2,222.6,145.5,350.1,0,0,0,123.7,95.1,192.3,236.9,204.6,185,186.1,167.5,314.1,141.1,0,0,129.7,166.4,88.1,130.2,182.1,0,0,0,0,0,0,0,0,184.4,0};
 PROGMEM prog_float_t Speed[] = {15.58544,15.04107,30.08214,29.52848,14.49669,28.9841,43.47616,57.96821,86.95231,115.9364,28.43973,27.89535,13.94304,16.1391,14.95893,13.39866,12.85429,30.04107,15,30,60,90,29.95893,29.45563,27.96821,28.51258,13.47151,44.02517,42.92714,57.42383,58.9841,31.0159,1.098033,1.015896,0.5443747,0.0410686,0.0821373};
 PROGMEM prog_float_t Equilarg[10][37] = { 
 {174.95,18.51,216.55,157.82,231.31,194.25,291.37,28.5,222.75,57,41.93,249.62,171.62,53.64,349.93,19.3,226.99,176.92,180,0,0,0,3.08,29.59,26.6,178.91,156.28,212.76,9.99,236.18,194.25,165.75,31.01,165.75,152.32,280.07,200.13},

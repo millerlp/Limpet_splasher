@@ -9,7 +9,7 @@ the natural tide is lower than the virtual shore level defined in the
 program.
 
 To get this working properly, the two library folders, RTClib and 
-TideMontereyHarborlib (or the folder for your local site, i.e. TideLosAngeleslib) 
+TidelibMontereyHarbor (or the folder for your local site, i.e. TidelibLosAngeles) 
 must be copied into the arduino-1.x.x/libraries/ folder
 on your computer before launching the arduino.exe (arduino.app on Mac) 
 program.
